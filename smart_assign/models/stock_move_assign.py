@@ -18,7 +18,7 @@ class StockMove(models.Model):
     _inherit = 'stock.move'
 
     def _action_assign(self):
-        UserError("here")
+        UserError(_("here"))
         """ Reserve stock moves by creating their stock move lines. A stock move is
         considered reserved once the sum of `product_qty` for all its move lines is
         equal to its `product_qty`. If it is less, the stock move is considered
