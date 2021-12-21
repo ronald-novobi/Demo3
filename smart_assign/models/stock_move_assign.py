@@ -24,7 +24,7 @@ class SmartMove(models.Model):
     _inherit = "stock.move"
     _description = "Stock Move"
     _order = 'sequence, id'
-
+    raise UserError(_('test'))
     def _action_assign(self):
         """ Reserve stock moves by creating their stock move lines. A stock move is
         considered reserved once the sum of `product_qty` for all its move lines is
