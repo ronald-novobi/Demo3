@@ -79,8 +79,9 @@ class SmartMove(models.Model):
                     available_quantity = move._get_available_quantity(move.location_id, package_id=forced_package_id)
                     if available_quantity <= 0:
                         continue
-                    raise UserError(_('here1'))
-                    taken_quantity = move._update_reserved_quantity(need, available_quantity, move.location_id, package_id=forced_package_id, strict=False)
+                    taken_quantity = 0
+                    for lot in self.raw_material_production_id.x_studio_purchase_orders_for_this_mo.finished_move_line_ids.mapped('lot_id'):
+                        taken_quantity += move._update_reserved_quantity(need, available_quantity, move.location_id,lot, package_id=forced_package_id, strict=False)
                     if float_is_zero(taken_quantity, precision_rounding=rounding):
                         continue
                     if float_compare(need, taken_quantity, precision_rounding=rounding) == 0:
