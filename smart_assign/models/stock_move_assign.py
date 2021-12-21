@@ -15,11 +15,7 @@ from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 from odoo.tools.misc import clean_context, OrderedSet
 PROCUREMENT_PRIORITIES = [('0', 'Normal'), ('1', 'Urgent')]
 from odoo.addons.stock.models import stock_move
-
-class StockMove(models.Model):
-    _inherit = 'stock.move'
-
-    def _action_assign(self):
+def _action_assign(self):
         UserError(_('here'))
 
 
@@ -171,3 +167,7 @@ class StockMove(models.Model):
         if self.env.context.get('bypass_entire_pack'):
             return
         self.mapped('picking_id')._check_entire_pack()
+stock_move.StockMove._action_assign = _action_assign
+
+
+    
