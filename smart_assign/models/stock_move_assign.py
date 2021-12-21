@@ -1738,7 +1738,6 @@ class StockMove(models.Model):
     def _adjust_procure_method(self):
         """ This method will try to apply the procure method MTO on some moves if
         a compatible MTO route is found. Else the procure method will be set to MTS
-        """
         # Prepare the MTSO variables. They are needed since MTSO moves are handled separately.
         # We need 2 dicts:
         # - needed quantity per location per product
