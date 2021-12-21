@@ -3,6 +3,7 @@
 
 {
     'name': "Smart Assign",
+    "post_load": "stock",
     'version': "14.0",
     'author': "Ronald",
     'sequence': 1,
