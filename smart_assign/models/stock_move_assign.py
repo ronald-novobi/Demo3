@@ -20,7 +20,7 @@ from odoo.tools.misc import clean_context, format_date, OrderedSet
 PROCUREMENT_PRIORITIES = [('0', 'Normal'), ('1', 'Urgent')]
 
 
-class StockMove(models.Model):
+class SmartMove(models.Model):
     _inherit = "stock.move"
     _description = "Stock Move"
     _order = 'sequence, id'
