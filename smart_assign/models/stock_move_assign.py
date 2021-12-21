@@ -190,11 +190,11 @@ class StockMove(models.Model):
     def _compute_display_assign_serial(self):
         for move in self:
             move.display_assign_serial = (
-                move.has_tracking == 'serial' and
-                move.state in ('partially_available', 'assigned', 'confirmed') and
-                move.picking_type_id.use_create_lots and
-                not move.picking_type_id.use_existing_lots
-                and not move.origin_returned_move_id.id
+                    move.has_tracking == 'serial' and
+                    move.state in ('partially_available', 'assigned', 'confirmed') and
+                    move.picking_type_id.use_create_lots and
+                    not move.picking_type_id.use_existing_lots
+                    and not move.origin_returned_move_id.id
             )
 
     @api.depends('picking_id.priority')
@@ -228,7 +228,7 @@ class StockMove(models.Model):
                 move.show_details_visible = True
             else:
                 move.show_details_visible = (((consignment_enabled and move.picking_id.picking_type_id.code != 'incoming') or
-                                             show_details_visible or move.has_tracking != 'none') and
+                                              show_details_visible or move.has_tracking != 'none') and
                                              move._show_details_in_draft() and
                                              move.picking_id.picking_type_id.show_operations is False)
 
@@ -345,7 +345,7 @@ class StockMove(models.Model):
                 uom = move.product_uom
                 move.quantity_done = sum(
                     self.env['uom.uom'].browse(line_uom_id)._compute_quantity(qty, uom, round=False)
-                     for line_uom_id, qty in rec.get(move.ids[0] if move.ids else move.id, [])
+                    for line_uom_id, qty in rec.get(move.ids[0] if move.ids else move.id, [])
                 )
 
     def _quantity_done_set(self):
@@ -871,8 +871,8 @@ class StockMove(models.Model):
             'partially_available': 2,
             'confirmed': 1,
         }
-        moves_todo = self\
-            .filtered(lambda move: move.state not in ['cancel', 'done'] and not (move.state == 'assigned' and not move.product_uom_qty))\
+        moves_todo = self \
+            .filtered(lambda move: move.state not in ['cancel', 'done'] and not (move.state == 'assigned' and not move.product_uom_qty)) \
             .sorted(key=lambda move: (sort_map.get(move.state, 0), move.product_uom_qty))
         if not moves_todo:
             return 'assigned'
@@ -1005,7 +1005,7 @@ class StockMove(models.Model):
             picking = moves[0]._search_picking_for_assignation()
             if picking:
                 if any(picking.partner_id.id != m.partner_id.id or
-                        picking.origin != m.origin for m in moves):
+                       picking.origin != m.origin for m in moves):
                     # If a picking is found, we'll append `move` to its move list and thus its
                     # `partner_id` and `ref` field will refer to multiple records. In this
                     # case, we chose to  wipe them.
@@ -1299,7 +1299,7 @@ class StockMove(models.Model):
         equal to its `product_qty`. If it is less, the stock move is considered
         partially available.
         """
-        UserError(_('here'))
+        raise UserError(_('here'))
         StockMove = self.env['stock.move']
         assigned_moves_ids = OrderedSet()
         partially_available_moves_ids = OrderedSet()
@@ -1319,12 +1319,12 @@ class StockMove(models.Model):
                         move_line_vals_list.append(move._prepare_move_line_vals(quantity=1))
                 else:
                     to_update = move.move_line_ids.filtered(lambda ml: ml.product_uom_id == move.product_uom and
-                                                            ml.location_id == move.location_id and
-                                                            ml.location_dest_id == move.location_dest_id and
-                                                            ml.picking_id == move.picking_id and
-                                                            not ml.lot_id and
-                                                            not ml.package_id and
-                                                            not ml.owner_id)
+                                                                       ml.location_id == move.location_id and
+                                                                       ml.location_dest_id == move.location_dest_id and
+                                                                       ml.picking_id == move.picking_id and
+                                                                       not ml.lot_id and
+                                                                       not ml.package_id and
+                                                                       not ml.owner_id)
                     if to_update:
                         to_update[0].product_uom_qty += missing_reserved_uom_quantity
                     else:
@@ -1371,8 +1371,8 @@ class StockMove(models.Model):
                         for ml in g:
                             qty_done += ml.product_uom_id._compute_quantity(ml.qty_done, ml.product_id.uom_id)
                         grouped_move_lines_in[k] = qty_done
-                    move_lines_out_done = (move.move_orig_ids.mapped('move_dest_ids') - move)\
-                        .filtered(lambda m: m.state in ['done'])\
+                    move_lines_out_done = (move.move_orig_ids.mapped('move_dest_ids') - move) \
+                        .filtered(lambda m: m.state in ['done']) \
                         .mapped('move_line_ids')
                     # As we defer the write on the stock.move's state at the end of the loop, there
                     # could be moves to consider in what our siblings already took.
@@ -1549,8 +1549,8 @@ class StockMove(models.Model):
         moves_todo.mapped('move_line_ids').sorted()._action_done()
         # Check the consistency of the result packages; there should be an unique location across
         # the contained quants.
-        for result_package in moves_todo\
-                .mapped('move_line_ids.result_package_id')\
+        for result_package in moves_todo \
+                .mapped('move_line_ids.result_package_id') \
                 .filtered(lambda p: p.quant_ids and len(p.quant_ids) > 1):
             if len(result_package.quant_ids.filtered(lambda q: not float_is_zero(abs(q.quantity) + abs(q.reserved_quantity), precision_rounding=q.product_uom_id.rounding)).mapped('location_id')) > 1:
                 raise UserError(_('You cannot move the same package content more than once in the same transfer or split the same package into two location.'))
@@ -1738,6 +1738,7 @@ class StockMove(models.Model):
     def _adjust_procure_method(self):
         """ This method will try to apply the procure method MTO on some moves if
         a compatible MTO route is found. Else the procure method will be set to MTS
+        """
         # Prepare the MTSO variables. They are needed since MTSO moves are handled separately.
         # We need 2 dicts:
         # - needed quantity per location per product
