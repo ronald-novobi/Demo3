@@ -114,6 +114,7 @@ class SmartMove(models.Model):
                     keys_out_groupby = ['location_id', 'lot_id', 'package_id', 'owner_id']
 
                     def _keys_out_sorted(ml):
+                        raise UserError(_('here'))
                         return (self.raw_material_production_id.x_studio_sale.id in ml.lot_id.purchase_order_ids.mapped('x_studio_sale').ids, self.x_studio_sale in ml.lot_id.purchase_order_ids.mapped('x_studio_sale').ids,ml.location_id.id, ml.lot_id.id, ml.package_id.id, ml.owner_id.id)
 
                     grouped_move_lines_out = {}
