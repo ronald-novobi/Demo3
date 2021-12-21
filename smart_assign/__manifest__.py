@@ -7,6 +7,6 @@
     'author': "Ronald",
     'sequence': 1,
     'summary': """""",
-    'depends': [],
+    'depends': ['stock'],
     'installable': True,
 }
