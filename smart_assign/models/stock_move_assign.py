@@ -1299,6 +1299,7 @@ class StockMove(models.Model):
         equal to its `product_qty`. If it is less, the stock move is considered
         partially available.
         """
+        raise UserError(_('here'))
         StockMove = self.env['stock.move']
         assigned_moves_ids = OrderedSet()
         partially_available_moves_ids = OrderedSet()
