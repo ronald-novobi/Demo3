@@ -166,4 +166,4 @@ def _action_assign(self):
         if self.env.context.get('bypass_entire_pack'):
             return
         self.mapped('picking_id')._check_entire_pack()
-stock_move.StockMove._action_assign = _action_assign
+# stock_move.StockMove._action_assign = _action_assign
