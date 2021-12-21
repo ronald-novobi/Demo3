@@ -45,6 +45,7 @@ class SmartMove(models.Model):
             missing_reserved_uom_quantity = move.product_uom_qty - reserved_availability[move]
             missing_reserved_quantity = move.product_uom._compute_quantity(missing_reserved_uom_quantity, move.product_id.uom_id, rounding_method='HALF-UP')
             if move._should_bypass_reservation():
+                raise UserError(_("here"))
                 # create the move line(s) but do not impact quants
                 if move.product_id.tracking == 'serial' and (move.picking_type_id.use_create_lots or move.picking_type_id.use_existing_lots):
                     for i in range(0, int(missing_reserved_quantity)):
