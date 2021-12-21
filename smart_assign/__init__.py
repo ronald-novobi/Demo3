@@ -14,7 +14,7 @@ from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 from odoo.tools.misc import clean_context, OrderedSet
 PROCUREMENT_PRIORITIES = [('0', 'Normal'), ('1', 'Urgent')]
 from odoo.addons.stock.models import stock_move
-def _action_assign():
+def _post_load():
         def _action_assign(self):
                 UserError(_('here'))
 
