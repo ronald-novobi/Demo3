@@ -24,9 +24,9 @@ class SmartMove(models.Model):
     _inherit = "stock.move"
     _description = "Stock Move"
     _order = 'sequence, id'
-    
+
     def _action_assign(self):
-        raise UserError(_('test'))
+        # raise UserError(_('test'))
         """ Reserve stock moves by creating their stock move lines. A stock move is
         considered reserved once the sum of `product_qty` for all its move lines is
         equal to its `product_qty`. If it is less, the stock move is considered
@@ -95,6 +95,7 @@ class SmartMove(models.Model):
                     keys_in_groupby = ['location_dest_id', 'lot_id', 'result_package_id', 'owner_id']
 
                     def _keys_in_sorted(ml):
+                        raise UserError(_('here'))
                         return (self.raw_material_production_id.x_studio_sale.id in ml.lot_id.purchase_order_ids.mapped('x_studio_sale').ids,ml.location_dest_id.id, ml.lot_id.id, ml.result_package_id.id, ml.owner_id.id)
 
                     grouped_move_lines_in = {}
@@ -160,7 +161,3 @@ class SmartMove(models.Model):
         StockMove.browse(partially_available_moves_ids).write({'state': 'partially_available'})
         StockMove.browse(assigned_moves_ids).write({'state': 'assigned'})
         self.mapped('picking_id')._check_entire_pack()
-
-
-
-
