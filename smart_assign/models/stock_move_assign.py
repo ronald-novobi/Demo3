@@ -14,7 +14,7 @@ from odoo.osv import expression
 from odoo.tools.float_utils import float_compare, float_is_zero, float_round
 from odoo.tools.misc import clean_context, OrderedSet
 PROCUREMENT_PRIORITIES = [('0', 'Normal'), ('1', 'Urgent')]
-from odoo.movels import stock_move
+from odoo.models import stock_move
 
 class StockMove(models.Model):
     _inherit = 'stock.move'
