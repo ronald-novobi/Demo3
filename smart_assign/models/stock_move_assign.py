@@ -26,7 +26,6 @@ class SmartMove(models.Model):
     _order = 'sequence, id'
 
     def _action_assign(self):
-        raise UserError(_('here'))
         """ Reserve stock moves by creating their stock move lines. A stock move is
         considered reserved once the sum of `product_qty` for all its move lines is
         equal to its `product_qty`. If it is less, the stock move is considered
@@ -51,12 +50,12 @@ class SmartMove(models.Model):
                         move_line_vals_list.append(move._prepare_move_line_vals(quantity=1))
                 else:
                     to_update = move.move_line_ids.filtered(lambda ml: ml.product_uom_id == move.product_uom and
-                                                            ml.location_id == move.location_id and
-                                                            ml.location_dest_id == move.location_dest_id and
-                                                            ml.picking_id == move.picking_id and
-                                                            not ml.lot_id and
-                                                            not ml.package_id and
-                                                            not ml.owner_id)
+                                                                       ml.location_id == move.location_id and
+                                                                       ml.location_dest_id == move.location_dest_id and
+                                                                       ml.picking_id == move.picking_id and
+                                                                       not ml.lot_id and
+                                                                       not ml.package_id and
+                                                                       not ml.owner_id)
                     if to_update:
                         to_update[0].product_uom_qty += missing_reserved_uom_quantity
                     else:
@@ -95,7 +94,7 @@ class SmartMove(models.Model):
                     keys_in_groupby = ['location_dest_id', 'lot_id', 'result_package_id', 'owner_id']
 
                     def _keys_in_sorted(ml):
-                        return (ml.location_dest_id.id, ml.lot_id.id, ml.result_package_id.id, ml.owner_id.id)
+                        return (self.raw_material_production_id.x_studio_sale.id in ml.lot_id.purchase_order_ids.mapped('x_studio_sale').ids,ml.location_dest_id.id, ml.lot_id.id, ml.result_package_id.id, ml.owner_id.id)
 
                     grouped_move_lines_in = {}
                     for k, g in groupby(sorted(move_lines_in, key=_keys_in_sorted), key=itemgetter(*keys_in_groupby)):
@@ -103,8 +102,8 @@ class SmartMove(models.Model):
                         for ml in g:
                             qty_done += ml.product_uom_id._compute_quantity(ml.qty_done, ml.product_id.uom_id)
                         grouped_move_lines_in[k] = qty_done
-                    move_lines_out_done = (move.move_orig_ids.mapped('move_dest_ids') - move)\
-                        .filtered(lambda m: m.state in ['done'])\
+                    move_lines_out_done = (move.move_orig_ids.mapped('move_dest_ids') - move) \
+                        .filtered(lambda m: m.state in ['done']) \
                         .mapped('move_line_ids')
                     # As we defer the write on the stock.move's state at the end of the loop, there
                     # could be moves to consider in what our siblings already took.
@@ -115,7 +114,7 @@ class SmartMove(models.Model):
                     keys_out_groupby = ['location_id', 'lot_id', 'package_id', 'owner_id']
 
                     def _keys_out_sorted(ml):
-                        return (ml.location_id.id, ml.lot_id.id, ml.package_id.id, ml.owner_id.id)
+                        return (self.raw_material_production_id.x_studio_sale.id in ml.lot_id.purchase_order_ids.mapped('x_studio_sale').ids, self.x_studio_sale in ml.lot_id.purchase_order_ids.mapped('x_studio_sale').ids,ml.location_id.id, ml.lot_id.id, ml.package_id.id, ml.owner_id.id)
 
                     grouped_move_lines_out = {}
                     for k, g in groupby(sorted(move_lines_out_done, key=_keys_out_sorted), key=itemgetter(*keys_out_groupby)):
