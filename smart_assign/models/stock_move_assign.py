@@ -19,7 +19,6 @@ class StockMove(models.Model):
 
     def _action_assign(self):
         UserError(_('here'))
-        
 
 
         def _get_available_move_lines(move):
@@ -27,7 +26,7 @@ class StockMove(models.Model):
             keys_in_groupby = ['location_dest_id', 'lot_id', 'result_package_id', 'owner_id']
 
             def _keys_in_sorted(ml):
-                return (ml.location_dest_id.id, ml.lot_id.id, ml.result_package_id.id, ml.owner_id.id)
+                return (ml.purchase_line_id.sale_order_id.id == self.x_studio_sale_order.id,ml.location_dest_id.id, ml.lot_id.id, ml.result_package_id.id, ml.owner_id.id)
 
             grouped_move_lines_in = {}
             for k, g in groupby(sorted(move_lines_in, key=_keys_in_sorted), key=itemgetter(*keys_in_groupby)):
@@ -62,7 +61,6 @@ class StockMove(models.Model):
             return dict((k, v) for k, v in available_move_lines.items() if v)
 
         StockMove = self.env['stock.move']
-        UserError(_('here'))
         assigned_moves_ids = OrderedSet()
         partially_available_moves_ids = OrderedSet()
         # Read the `reserved_availability` field of the moves out of the loop to prevent unwanted
@@ -171,4 +169,3 @@ class StockMove(models.Model):
         if self.env.context.get('bypass_entire_pack'):
             return
         self.mapped('picking_id')._check_entire_pack()
-StockMove()
