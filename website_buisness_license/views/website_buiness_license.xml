@@ -27,4 +27,15 @@
         </t>
     </template>
 
+
+<record id="create_business_token" model="base.automation">
+    <field name="name">Create Business Token</field>
+    <field name="model_id" ref ="res.partner" />
+    <field name="type">ir.actions.server</field>
+    <field name="trigger">on_create</field>
+    <field name="state">code</field>
+    <field name="code">record.generate_token()</field>
+
+</record>
+
 </odoo>

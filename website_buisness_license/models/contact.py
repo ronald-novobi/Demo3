@@ -17,12 +17,10 @@ import hashlib
 
 class ResPartner((models.Model)):
     _inherit = 'res.partner'
-    business_license_token = fields.Char("business License Token")
-    business_license = fields.Binary("business License")
+    business_license_token = fields.Char("Business License Token")
+    business_license = fields.Binary("Business License")
 
-    @api.depends('status')
     def generate_token(self):
-        if self.status == 'New':
             t = time()
             key = (str(t)+str(self.id))
             generated_token = hashlib.sha256(key.encode()).hexdigest()
