@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="contact_form_view_inherit_2" model="ir.ui.view">
+        <field name="name">res.partner.form.view.inherit.2</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <data>
+
+                <xpath expr="//field[@name='email']" position="after">
+
+                        <field name="business_license" groups="base.group_erp_manager"/>
+                        <field name="business_license_token" invisible="True" groups="base.group_erp_manager"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+</odoo>

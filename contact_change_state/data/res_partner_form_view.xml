@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="contact_form_view_inherit" model="ir.ui.view">
+        <field name="name">res.partner.form.view.inherit</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//div" position="before">
+                    <header>
+                        <button name="action_set_approved" string="Approve" class="btn btn-primary" type="object" attrs="{'invisible': [('status', '!=', 'In Review')]}"/>
+                    </header>
+                </xpath>
+                <xpath expr="//field[@name='function']" position="before">
+
+                        <field name="status" />
+
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+</odoo>
