@@ -30,7 +30,7 @@
 
 <record id="create_business_token" model="base.automation">
     <field name="name">Create Business Token</field>
-    <field name="model_id" ref ="res.partner" />
+    <field name="model_id" ref ="res_partner" />
     <field name="type">ir.actions.server</field>
     <field name="trigger">on_create</field>
     <field name="state">code</field>
