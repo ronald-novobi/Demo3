@@ -8,6 +8,6 @@
     'sequence': 1,
     'summary': """""",
     'depends': ['website'],
-    'data': ['views/website_buiness_license.xml','views/website_buiness_license_success.xml'],
+    'data': ['views/website_buiness_license.xml','views/website_buiness_license_success.xml','views/res_partner_form_view.xml'],
     'installable': True,
 }
