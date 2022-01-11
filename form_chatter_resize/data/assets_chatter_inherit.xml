@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="assets_chatter_inherit" model="ir.ui.view">
+        <field name="name">	web.assets_common.inherit.chatter</field>
+
+        <field name="inherit_id" ref="web.assets_common"/>
+        <field name="priority">100</field>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//script[last()]" position="after">
+                    <style>
+                        .o_form_sheet_bg{
+                        resize:horizontal !important;
+                        }
+                    </style>
+
+
+                </xpath>
+            </data>
+        </field>
+    </record>
+
+
+</odoo>
