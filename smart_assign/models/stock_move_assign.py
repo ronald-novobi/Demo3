@@ -1,7 +1,6 @@
 
 from odoo.models import *
 
-import requests
 from odoo import _, api, exceptions, fields, models, modules
 from odoo.addons.base.models.res_users import is_selection_groups
 from odoo.exceptions import AccessError, UserError, ValidationError
