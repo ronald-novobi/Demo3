@@ -5,6 +5,6 @@
     'author': "Novobi",
     'sequence': 1,
     'summary': """""",
-    'depends': ['stock'],
+    'depends': ['sale'],
     'installable': True,
 }
