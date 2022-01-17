@@ -11,5 +11,5 @@ class SaleLine((models.Model)):
     def unlink(self):
         if self._check_line_unlink() and not self.display_type:
             raise UserError(_('You can not remove an order line once the sales order is confirmed.\nYou should rather set the quantity to 0.'))
-        return super(SaleLine, self).unlink()
+        return self.unlink()
 
