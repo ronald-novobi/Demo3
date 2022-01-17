@@ -4,7 +4,7 @@ from odoo.models import *
 from odoo import _, api, exceptions, fields, models, modules
 from odoo.addons.base.models.res_users import is_selection_groups
 from odoo.exceptions import AccessError, UserError, ValidationError
-from addons.sale.models.sale_order_line import *
+from odoo.addons.sale.models.sale import *
 
 
 class SaleLine((models.Model)):
