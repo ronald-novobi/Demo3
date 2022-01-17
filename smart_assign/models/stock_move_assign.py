@@ -9,9 +9,11 @@ from odoo.addons.sale.models.sale import SaleOrderLine
 
 class SaleLine((models.Model)):
     _inherit = 'sale.order.line'
-    @api.multi
+    
+
     def unlink(self):
-        if self._check_line_unlink() and not self.display_type:
-            raise UserError(_('You can not remove an order line once the sales order is confirmed.\nYou should rather set the quantity to 0.'))
+        for line in self:
+            if line._check_line_unlink() and not line.display_type:
+                raise UserError(_('You can not remove an order line once the sales order is confirmed.\nYou should rather set the quantity to 0.'))
         return super(SaleOrderLine, self).unlink()
 
